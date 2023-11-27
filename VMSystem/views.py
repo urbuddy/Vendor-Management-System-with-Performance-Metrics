@@ -26,7 +26,7 @@ class VendorInfo(APIView):
     def get(self, request, id):
         try:
             obj = Vendor.objects.get(id=id)
-        except Vendor.DoesNotExist:
+        except(KeyError, Vendor.DoesNotExist):
             msg = {'msg': 'vendor not found'}
             return Response(msg, status=status.HTTP_404_NOT_FOUND)
         serializer = VendorSerializer(obj)
@@ -67,12 +67,21 @@ class POsDetails(APIView):
         serializer = POSerializer(data=request.data)
         if serializer.is_valid():
             if serializer.validated_data['quality_rating'] != None:
-                vendor = Vendor.objects.get_or_create(id=serializer.validated_data['vendor'])
-                performance = PerformanceHistory.objects.get(vendor=vendor)
-                performance.quality_rating_avg = calculate_quality_rating_avg(vendor)
-                vendor.quality_rating_avg = performance.quality_rating_avg
-                performance.save()
-                serializer.save()
+                try:
+                    vendor = Vendor.objects.get_or_create(id=serializer.validated_data['vendor'])
+                    performance = PerformanceHistory.objects.get(vendor=vendor)
+                    performance.quality_rating_avg = calculate_quality_rating_avg(vendor)
+                    vendor.quality_rating_avg = performance.quality_rating_avg
+                    performance.save()
+                    vendor.save()
+                except ZeroDivisionError as error:
+                    print(error)
+                    msg = {'msg': 'divide by zero error occurred'}
+                    return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+                except Exception as error:
+                    print(error)
+                    msg = {'msg': error}
+                    return Response(msg, status=status.HTTP_400_BAD_REQUEST)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
@@ -106,8 +115,15 @@ class POInfo(APIView):
                 return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
         except PurchaseOrder.DoesNotExist:
-            msg = {"msg": "order not found"}
+            msg = {'msg': 'order not found'}
             return Response(msg, status=status.HTTP_404_NOT_FOUND)
+        except ZeroDivisionError as error:
+            print(error)
+            msg = {'msg': 'divide by zero error occurred'}
+            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as error:
+            msg = {'msg': error}
+            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id):
         try:
@@ -149,3 +165,10 @@ class AcknowledgeOrder(APIView):
         except PurchaseOrder.DoesNotExist:
             msg = {'msg': 'order not found'}
             return Response(msg, status=status.HTTP_404_NOT_FOUND)
+        except ZeroDivisionError as error:
+            print(error)
+            msg = {'msg': 'divide by zero error occurred'}
+            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as error:
+            msg = {'msg': error}
+            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
