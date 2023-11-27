@@ -1,9 +1,21 @@
 # Vendor-Management-System-with-Performance-Metrics
 
 # Objective
-      Develop a Vendor Management System using Django and Django REST Framework. This
-      system will handle vendor profiles, track purchase orders, and calculate vendor performance
-      metrics.
+      A Vendor Management System using Django and Django REST Framework. This
+      system will handle vendor profiles, track purchase orders, and calculate vendor performance metrics.
+      
+# Installation
+   1. Git clone the project:
+      
+           $ git clone https://github.com/urbuddy/Vendor-Management-System-with-Performance-Metrics.git
+     
+  2. Run the following command in your terminal to install the Django and Django rest framework in your local system.
+       
+           $ pip install django djangorestframework
+     
+  3. Execute the following command in your project terminal to run the server.
+     
+           $ python manage.py runserver
       
 # Core Features
   1. Vendor Profile Management:
@@ -58,3 +70,4 @@
   
     ● GET /api/vendors/{vendor_id}/performance: Retrieve a vendor's performance metrics.
     
+# Test Suite
