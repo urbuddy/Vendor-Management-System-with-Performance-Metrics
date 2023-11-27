@@ -32,8 +32,7 @@
   
     ● POST /api/purchase_orders/: Create a purchase order.
     
-    ● GET /api/purchase_orders/: List all purchase orders with an option to filter by
-    vendor.
+    ● GET /api/purchase_orders/: List all purchase orders with an option to filter by the vendor.
     
     ● GET /api/purchase_orders/{po_id}/: Retrieve details of a specific purchase order.
     
@@ -49,8 +48,7 @@
     
     ● Quality Rating: Average of quality ratings given to a vendor’s purchase orders.
     
-    ● Response Time: Average time taken by a vendor to acknowledge or respond to
-    purchase orders.
+    ● Response Time: Average time taken by a vendor to acknowledge or respond to purchase orders.
     
     ● Fulfilment Rate: Percentage of purchase orders fulfilled without issues.
     
