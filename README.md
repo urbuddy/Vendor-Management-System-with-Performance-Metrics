@@ -12,9 +12,13 @@
   2. Run the following command in your terminal to install the Django and Django rest framework in your local system.
        
            $ pip install django djangorestframework
-     
-  3. Execute the following command in your project terminal to run the server.
-     
+
+  3. Migrate the Migration files with following command:
+
+           $ pip manage.py migrate
+
+  4. Execute the following command in your project terminal to run the server.
+
            $ python manage.py runserver
       
 # Core Features
@@ -71,3 +75,4 @@
     ● GET /api/vendors/{vendor_id}/performance: Retrieve a vendor's performance metrics.
     
 # Test Suite
+    For Testing the API End-Points test suites are developed in the tests.py file.
